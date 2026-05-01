@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reportes - AsisteQR</title>
+  <link rel="stylesheet" href="reportes.css">
+  <link rel="stylesheet" href="../nav-user.css">
+  <link rel="stylesheet" href="../responsive-mobile.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-content">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="url(#gradient)"/>
+          <path d="M8 8h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm-12 6h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm-12 6h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4z" fill="white"/>
+          <defs>
+            <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32">
+              <stop offset="0%" stop-color="#0078D4"/>
+              <stop offset="100%" stop-color="#00A4EF"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>AsisteQR</span>
+      </div>
+      <div class="nav-menu">
+        <a href="../qr/escaner.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="4" y="4" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none"/>
+            <rect x="6" y="6" width="2" height="2" fill="currentColor"/>
+            <rect x="12" y="6" width="2" height="2" fill="currentColor"/>
+          </svg>
+          Escáner
+        </a>
+        <a href="../eventos/eventos.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="4" y="5" width="12" height="12" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M7 3v4M13 3v4M4 9h12" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Eventos
+        </a>
+        <a href="../registro/registro.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="8" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M4 17c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Registro
+        </a>
+        <a href="reportes.html" class="nav-item active">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M4 16V8l4-4 4 4v8M4 12h8" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Reportes
+        </a>
+        <a href="../analisis/analisis.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M10 7v3l2 2" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Análisis IA
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Reportes de Asistencia</h1>
+          <p class="page-subtitle">Visualiza y exporta datos detallados con información geográfica precisa</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn-secondary" id="btn-export-excel">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M5 3h10l2 2v12l-2 2H5l-2-2V5l2-2z" stroke="currentColor" stroke-width="2" fill="none"/>
+              <path d="M7 10h6M7 13h4" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            Exportar Excel
+          </button>
+          <button class="btn-primary" id="btn-export-pdf">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M4 4h12v12H4z" stroke="currentColor" stroke-width="2" fill="none"/>
+              <path d="M7 7h6M7 10h6M7 13h4" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            Exportar PDF
+          </button>
+        </div>
+      </div>
+
+      <div class="filters-card">
+        <h3>Filtros</h3>
+        <div class="filters-grid">
+          <div class="filter-item">
+            <label>Evento</label>
+            <select id="filter-event" class="filter-select">
+              <option value="">Todos los eventos</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>Fecha Desde</label>
+            <input type="date" id="filter-date-from" class="filter-input">
+          </div>
+          <div class="filter-item">
+            <label>Fecha Hasta</label>
+            <input type="date" id="filter-date-to" class="filter-input">
+          </div>
+          <div class="filter-item">
+            <label>Búsqueda</label>
+            <input type="text" id="filter-search" class="filter-input" placeholder="Nombre, ID...">
+          </div>
+        </div>
+      </div>
+
+      <!-- Mapa y Estadísticas -->
+      <div class="top-section">
+        <div class="card map-card">
+          <div class="card-header">
+            <h3>Mapa de Asistencias</h3>
+          </div>
+          <div class="map-container" id="map-container">
+            <div id="map-view"></div>
+            <div class="map-placeholder" id="map-placeholder" style="display: none;">
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                <circle cx="40" cy="40" r="35" stroke="#0078D4" stroke-width="3" fill="none"/>
+                <path d="M40 10v60M10 40h60" stroke="#0078D4" stroke-width="2"/>
+                <circle cx="40" cy="40" r="5" fill="#0078D4"/>
+                <circle cx="30" cy="25" r="4" fill="#00B294"/>
+                <circle cx="55" cy="35" r="4" fill="#00B294"/>
+                <circle cx="35" cy="55" r="4" fill="#00B294"/>
+                <circle cx="50" cy="50" r="4" fill="#00B294"/>
+              </svg>
+              <p>Vista de geolocalización de asistencias</p>
+              <p class="map-info">Los puntos representan ubicaciones de registro</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card stats-card">
+          <h3>Estadísticas Resumen</h3>
+          <div class="summary-grid">
+            <div class="summary-item">
+              <span class="summary-label">Total Asistencias</span>
+              <span class="summary-value" id="summary-total">0</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Eventos Únicos</span>
+              <span class="summary-value" id="summary-events">0</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Estudiantes Únicos</span>
+              <span class="summary-value" id="summary-students">0</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Precisión Promedio</span>
+              <span class="summary-value" id="summary-accuracy">0m</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de Registros -->
+      <div class="card table-card">
+        <div class="card-header">
+          <h3>Registros de Asistencia</h3>
+          <span class="record-count" id="record-count">0 registros</span>
+        </div>
+        
+        <div class="table-container">
+          <table class="data-table" id="attendance-table">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Carrera</th>
+                <th>Evento</th>
+                <th>Encargado</th>
+                <th>Fecha/Hora</th>
+                <th>Ubicación GPS</th>
+                <th>Precisión</th>
+                <th>Distancia</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <!-- Data will be loaded dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="../shared/store.js"></script>
+  <script src="../shared/geo.js"></script>
+  <script src="../shared/auth-guard.js"></script>
+  <script src="reportes.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión - AsisteQR</title>
+  <link rel="stylesheet" href="login/login.css">
+  <link rel="stylesheet" href="responsive-mobile.css">
+</head>
+<body class="login-body">
+  <div class="login-container">
+    <div class="login-visual">
+      <div class="logo-circle">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <rect width="64" height="64" rx="16" fill="url(#loginGradient)"/>
+          <path d="M16 16h8v8h-8zm12 0h8v8h-8zm12 0h8v8h-8zm-24 12h8v8h-8zm12 0h8v8h-8zm12 0h8v8h-8zm-24 12h8v8h-8zm12 0h8v8h-8zm12 0h8v8h-8z" fill="white"/>
+          <defs>
+            <linearGradient id="loginGradient" x1="0" y1="0" x2="64" y2="64">
+              <stop offset="0%" stop-color="#0078D4"/>
+              <stop offset="100%" stop-color="#00A4EF"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <h1 class="login-title">AsisteQR</h1>
+      <p class="login-subtitle">Sistema de Control de Asistencia</p>
+    </div>
+    
+    <form id="login-form" class="login-form" autocomplete="off">
+      <div class="input-group">
+        <label for="usuario">Usuario</label>
+        <div class="input-wrapper">
+          <svg class="input-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M3 18c0-4 3-6 7-6s7 2 7 6" stroke="currentColor" stroke-width="2" fill="none"/>
+          </svg>
+          <input type="text" id="usuario" placeholder="Ingresa tu usuario" required>
+        </div>
+      </div>
+      
+      <div class="input-group">
+        <label for="contrasena">Contraseña</label>
+        <div class="input-wrapper">
+          <svg class="input-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="5" y="9" width="10" height="8" rx="1" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M7 9V6a3 3 0 016 0v3" stroke="currentColor" stroke-width="2" fill="none"/>
+          </svg>
+          <input type="password" id="contrasena" placeholder="Ingresa tu contraseña" required>
+        </div>
+      </div>
+      
+      <button type="submit" class="btn-submit">
+        Iniciar Sesión
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </form>
+    
+    <div id="login-error" class="error-msg">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
+        <path d="M10 6v5M10 14v0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      Usuario o contraseña incorrectos
+    </div>
+    
+    <div class="login-footer">
+      <a href="index.html" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        Volver al inicio
+      </a>
+    </div>
+  </div>
+
+  <script src="shared/store.js"></script>
+  <script src="login/login.js"></script>
+
+</body>
+</html>

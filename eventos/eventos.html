@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Eventos - AsisteQR</title>
+  <link rel="stylesheet" href="eventos.css">
+  <link rel="stylesheet" href="../nav-user.css">
+  <link rel="stylesheet" href="../responsive-mobile.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-content">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="url(#gradient)"/>
+          <path d="M8 8h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm-12 6h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm-12 6h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4z" fill="white"/>
+          <defs>
+            <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32">
+              <stop offset="0%" stop-color="#0078D4"/>
+              <stop offset="100%" stop-color="#00A4EF"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>AsisteQR</span>
+      </div>
+      <div class="nav-menu">
+        <a href="../qr/escaner.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="4" y="4" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none"/>
+            <rect x="6" y="6" width="2" height="2" fill="currentColor"/>
+            <rect x="12" y="6" width="2" height="2" fill="currentColor"/>
+          </svg>
+          Escáner
+        </a>
+        <a href="eventos.html" class="nav-item active">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="4" y="5" width="12" height="12" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M7 3v4M13 3v4M4 9h12" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Eventos
+        </a>
+        <a href="../registro/registro.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="8" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M4 17c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Registro
+        </a>
+        <a href="../reportes/reportes.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M4 16V8l4-4 4 4v8M4 12h8" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Reportes
+        </a>
+        <a href="../analisis/analisis.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M10 7v3l2 2" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Análisis IA
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Gestión de Eventos</h1>
+          <p class="page-subtitle">Crea y administra eventos académicos con códigos QR únicos</p>
+        </div>
+        <button class="btn-primary" id="btn-new-event">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Nuevo Evento
+        </button>
+      </div>
+
+      <div class="stats-overview">
+        <div class="stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #0078D4 0%, #00A4EF 100%);">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <rect x="8" y="10" width="16" height="16" rx="2" stroke="white" stroke-width="2" fill="none"/>
+              <path d="M12 6v8M20 6v8M8 14h16" stroke="white" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <span class="stat-value" id="stat-total-events">0</span>
+            <span class="stat-label">Total Eventos</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #00B294 0%, #00D4A0 100%);">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="10" stroke="white" stroke-width="2" fill="none"/>
+              <path d="M12 16l3 3 5-6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <span class="stat-value" id="stat-active-events">0</span>
+            <span class="stat-label">Eventos Activos</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #0078D4 0%, #00A4EF 100%);">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="10" stroke="white" stroke-width="2" fill="none"/>
+              <path d="M16 10v6l4 4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <span class="stat-value" id="stat-programado-events">0</span>
+            <span class="stat-label">Eventos Programados</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #666 0%, #999 100%);">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="10" stroke="white" stroke-width="2" fill="none"/>
+              <path d="M12 16l3 3 5-5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <span class="stat-value" id="stat-finalizado-events">0</span>
+            <span class="stat-label">Eventos Finalizados</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <circle cx="12" cy="12" r="5" stroke="white" stroke-width="2" fill="none"/>
+              <circle cx="22" cy="16" r="3" stroke="white" stroke-width="2" fill="none"/>
+              <circle cx="10" cy="22" r="4" stroke="white" stroke-width="2" fill="none"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <span class="stat-value" id="stat-total-attendance">0</span>
+            <span class="stat-label">Total Asistencias</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="events-section">
+        <div class="section-header">
+          <h2>Eventos Registrados</h2>
+          <div class="filter-group">
+            <input type="text" class="search-input" id="search-input" placeholder="Buscar eventos...">
+            <select class="filter-select" id="filter-status">
+              <option value="all">Todos</option>
+              <option value="programado">Programados</option>
+              <option value="activo">Activos</option>
+              <option value="finalizado">Finalizados</option>
+            </select>
+            <select class="filter-select" id="filter-limit">
+              <option value="10">Últimos 10</option>
+              <option value="20">Últimos 20</option>
+              <option value="50">Últimos 50</option>
+              <option value="all">Todos</option>
+            </select>
+          </div>
+        </div>
+        <div class="date-range-bar">
+          <span class="date-range-label">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <rect x="2" y="3" width="12" height="11" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              <path d="M5 1v4M11 1v4M2 7h12" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            Rango de fechas:
+          </span>
+          <input type="date" class="date-input" id="date-from" title="Desde">
+          <span class="date-sep">→</span>
+          <input type="date" class="date-input" id="date-to" title="Hasta">
+          <button class="btn-clear-dates" id="btn-clear-dates" title="Limpiar fechas">✕ Limpiar</button>
+        </div>
+
+        <div class="events-grid" id="events-grid">
+          <!-- Events will be dynamically loaded here -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal for New/Edit Event -->
+  <div class="modal" id="event-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Nuevo Evento</h2>
+        <button class="btn-close" id="btn-close-modal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      
+      <form id="event-form" class="modal-form">
+        <div class="form-group">
+          <label for="event-name">Nombre del Evento *</label>
+          <input type="text" id="event-name" required placeholder="Ej: Congreso de Innovación 2025">
+        </div>
+
+        <div class="form-group">
+          <label for="event-description">Descripción *</label>
+          <textarea id="event-description" rows="3" required placeholder="Describe el evento, temas, objetivos..."></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="event-date">Fecha *</label>
+            <input type="date" id="event-date" required>
+          </div>
+
+          <div class="form-group">
+            <label for="event-time-start">Hora Inicio</label>
+            <input type="time" id="event-time-start" value="09:00">
+          </div>
+
+          <div class="form-group">
+            <label for="event-time-end">Hora Fin</label>
+            <input type="time" id="event-time-end" value="17:00">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="event-location">Ubicación *</label>
+            <input type="text" id="event-location" required placeholder="Auditorio, Sala, etc.">
+          </div>
+
+          <div class="form-group">
+            <label for="event-capacity">Cupos</label>
+            <input type="number" id="event-capacity" min="1" value="100" placeholder="100">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="event-gps">Ubicación GPS (Coordenadas)</label>
+          <div class="gps-input-group">
+            <input type="text" id="event-gps" placeholder="Latitud, Longitud (ej: 4.6097, -74.0817)" readonly>
+            <button type="button" class="btn-gps" id="btn-capture-gps">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="2" fill="none"/>
+                <circle cx="10" cy="10" r="2" fill="currentColor"/>
+                <path d="M10 3v2M10 15v2M3 10h2M15 10h2" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Capturar Mi Ubicación
+            </button>
+            <button type="button" class="btn-gps btn-select-map" id="btn-select-map">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M7 2L2 5v11l5-3 6 3 5-3V2l-5 3-6-3z" stroke="currentColor" stroke-width="2" fill="none"/>
+                <path d="M7 5v11M13 8v11" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Seleccionar en Mapa
+            </button>
+          </div>
+          <small class="gps-help" id="gps-help">Captura tu ubicación actual o selecciona un punto específico en el mapa</small>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" id="btn-cancel">Cancelar</button>
+          <button type="submit" class="btn-primary">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M5 10l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Guardar Evento
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Map Selection Modal -->
+  <div class="map-modal" id="map-modal">
+    <div class="map-modal-content">
+      <div class="map-modal-header">
+        <h2>Seleccionar Ubicación del Evento</h2>
+        <button class="btn-close" id="btn-close-map">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="map-modal-body">
+        <div class="map-instructions">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M10 6v4l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>Haz clic en el mapa para seleccionar la ubicación del evento</span>
+        </div>
+        <div id="map-container" class="map-container"></div>
+        <div class="map-info">
+          <div class="map-info-item">
+            <strong>Latitud:</strong> <span id="map-lat">-</span>
+          </div>
+          <div class="map-info-item">
+            <strong>Longitud:</strong> <span id="map-lng">-</span>
+          </div>
+        </div>
+      </div>
+      <div class="map-modal-footer">
+        <button type="button" class="btn-secondary" id="btn-cancel-map">Cancelar</button>
+        <button type="button" class="btn-primary" id="btn-confirm-map" disabled>Confirmar Ubicación</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../shared/store.js"></script>
+  <script src="../shared/geo.js"></script>
+  <script src="../shared/auth-guard.js"></script>
+  <script src="eventos.js"></script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Estudiantes - AsisteQR</title>
+  <link rel="stylesheet" href="registro.css">
+  <link rel="stylesheet" href="../nav-user.css">
+  <link rel="stylesheet" href="../responsive-mobile.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-content">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="url(#gradient)"/>
+          <path d="M8 8h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm-12 6h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm-12 6h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4z" fill="white"/>
+          <defs>
+            <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32">
+              <stop offset="0%" stop-color="#0078D4"/>
+              <stop offset="100%" stop-color="#00A4EF"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>AsisteQR</span>
+      </div>
+      <div class="nav-menu">
+        <a href="../qr/escaner.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="4" y="4" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none"/>
+            <rect x="6" y="6" width="2" height="2" fill="currentColor"/>
+            <rect x="12" y="6" width="2" height="2" fill="currentColor"/>
+          </svg>
+          Escáner
+        </a>
+        <a href="../eventos/eventos.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="4" y="5" width="12" height="12" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M7 3v4M13 3v4M4 9h12" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Eventos
+        </a>
+        <a href="registro.html" class="nav-item active">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="8" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M4 17c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Registro
+        </a>
+        <a href="../reportes/reportes.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M4 16V8l4-4 4 4v8M4 12h8" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Reportes
+        </a>
+        <a href="../analisis/analisis.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M10 7v3l2 2" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Análisis IA
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Registro de Estudiantes</h1>
+          <p class="page-subtitle">Completa el formulario para registrar un nuevo estudiante y generar su código QR</p>
+        </div>
+      </div>
+
+    <!-- Búsqueda rápida por cédula -->
+    <div class="cedula-search-card" id="cedula-search-card">
+      <div class="cedula-search-header">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <circle cx="10" cy="10" r="7" stroke="#0078D4" stroke-width="2" fill="none"/>
+          <path d="M15.5 15.5l3.5 3.5" stroke="#0078D4" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <h3>Búsqueda rápida por cédula</h3>
+          <p>Si un estudiante perdió su código QR, búscalo aquí para recuperar su información</p>
+        </div>
+      </div>
+      <div class="cedula-search-row">
+        <input type="text" id="cedula-quick-search" class="cedula-search-input" placeholder="Ingresa el número de cédula..." maxlength="12" inputmode="numeric">
+        <button type="button" class="btn-search-cedula" id="btn-search-cedula">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M12.5 12.5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Buscar
+        </button>
+      </div>
+      <div id="cedula-search-result" class="cedula-search-result" style="display:none;"></div>
+    </div>
+
+    <div class="form-card">
+      <form id="registration-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cedula">Cédula *</label>
+            <input type="text" id="cedula" required placeholder="Número de cédula" pattern="[0-9]{7,10}">
+            <small>Solo números, 7-10 dígitos</small>
+          </div>
+
+          <div class="form-group">
+            <label for="correo">Correo Electrónico *</label>
+            <input type="email" id="correo" required placeholder="Correo institucional">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="primer-nombre">Primer Nombre *</label>
+            <input type="text" id="primer-nombre" required placeholder="Primer nombre">
+          </div>
+
+          <div class="form-group">
+            <label for="segundo-nombre">Segundo Nombre</label>
+            <input type="text" id="segundo-nombre" placeholder="Segundo nombre">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="primer-apellido">Primer Apellido *</label>
+            <input type="text" id="primer-apellido" required placeholder="Primer apellido">
+          </div>
+
+          <div class="form-group">
+            <label for="segundo-apellido">Segundo Apellido</label>
+            <input type="text" id="segundo-apellido" placeholder="Segundo apellido">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="carrera">Carrera *</label>
+            <input type="text" id="carrera" required placeholder="Nombre de la carrera">
+            <small>Escribe el nombre de la carrera</small>
+          </div>
+
+          <div class="form-group">
+            <label for="semestre">Semestre</label>
+            <input type="number" id="semestre" min="1" max="12" placeholder="Número de semestre">
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" onclick="document.getElementById('registration-form').reset()">
+            Limpiar
+          </button>
+          <button type="submit" class="btn-primary">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 5v10m-5-5h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Registrar Estudiante
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="12" r="6" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M6 28c0-6 4.5-10 10-10s10 4 10 10" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Total Estudiantes</div>
+          <div class="stat-value" id="total-students">0</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon success">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M6 16l6 6L26 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Registros Hoy</div>
+          <div class="stat-value" id="today-registrations">0</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon accent">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="6" y="6" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+            <rect x="10" y="10" width="3" height="3" fill="currentColor"/>
+            <rect x="19" y="10" width="3" height="3" fill="currentColor"/>
+            <rect x="10" y="19" width="3" height="3" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">QR Generados</div>
+          <div class="stat-value" id="qr-generated">0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- QR Modal -->
+  <div class="modal" id="qr-modal">
+    <div class="modal-content qr-modal-content">
+      <div class="modal-header">
+        <h2>✓ Estudiante Registrado</h2>
+        <button class="btn-close" id="btn-close-qr">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="student-info" id="student-info"></div>
+        <div class="qr-container">
+          <div id="qr-code"></div>
+        </div>
+        <p class="qr-instructions">Este código QR será escaneado para registrar la asistencia del estudiante a eventos.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btn-download-qr">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 3v10m0 0l-4-4m4 4l4-4M4 17h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Descargar QR
+        </button>
+        <button class="btn-primary" id="btn-new-registration">
+          Registrar Otro
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../shared/store.js"></script>
+  <script src="../shared/auth-guard.js"></script>
+  <script src="registro.js"></script>
+</body>
+</html>

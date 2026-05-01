@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escaneo QR - AsisteQR</title>
+  <link rel="stylesheet" href="escaner.css">
+  <link rel="stylesheet" href="../nav-user.css">
+  <link rel="stylesheet" href="../responsive-mobile.css">
+  <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-content">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="url(#gradient)"/>
+          <path d="M8 8h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm-12 6h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm-12 6h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4z" fill="white"/>
+          <defs>
+            <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32">
+              <stop offset="0%" stop-color="#0078D4"/>
+              <stop offset="100%" stop-color="#00A4EF"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>AsisteQR</span>
+      </div>
+      <div class="nav-menu">
+        <a href="escaner.html" class="nav-item active">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="4" y="4" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none"/>
+            <rect x="6" y="6" width="2" height="2" fill="currentColor"/>
+            <rect x="12" y="6" width="2" height="2" fill="currentColor"/>
+          </svg>
+          Escáner
+        </a>
+        <a href="../eventos/eventos.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="4" y="5" width="12" height="12" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M7 3v4M13 3v4M4 9h12" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Eventos
+        </a>
+        <a href="../registro/registro.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="8" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M4 17c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Registro
+        </a>
+        <a href="../reportes/reportes.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M4 16V8l4-4 4 4v8M4 12h8" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Reportes
+        </a>
+        <a href="../analisis/analisis.html" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M10 7v3l2 2" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Análisis IA
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1 class="page-title">Registro de Asistencia</h1>
+        <p class="page-subtitle">Busca el evento por código y escanea los códigos QR de los participantes</p>
+      </div>
+
+      <!-- Event Search Section -->
+      <div class="event-search-card">
+        <div class="search-header">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="12" stroke="#0078D4" stroke-width="2" fill="none"/>
+            <path d="M25 25l4 4" stroke="#0078D4" stroke-width="2" stroke-linecap="round"/>
+            <rect x="12" y="12" width="8" height="8" rx="1" fill="#0078D4" opacity="0.3"/>
+          </svg>
+          <div>
+            <h2>1. Buscar Evento</h2>
+            <p>Ingresa el código del evento para iniciar el registro de asistencia</p>
+          </div>
+        </div>
+        <div class="search-input-group">
+          <input type="text" id="event-code-input" placeholder="Código de evento (ej: EVT-2025-001)" />
+          <button id="btn-search-event" class="btn-primary">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="2" fill="none"/>
+              <path d="M14 14l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Buscar Evento
+          </button>
+        </div>
+        <div id="event-info" class="event-info" style="display: none;">
+          <div class="event-info-item">
+            <strong>Evento:</strong> <span id="event-name">-</span>
+          </div>
+          <div class="event-info-item">
+            <strong>Lugar:</strong> <span id="event-location">-</span>
+          </div>
+          <div class="event-info-item">
+            <strong>Fecha:</strong> <span id="event-date">-</span>
+          </div>
+          <div class="event-info-item">
+            <strong>Estado:</strong> <span id="event-status" class="event-status-badge">-</span>
+          </div>
+          <div class="event-info-item gps-status">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="2" fill="none"/>
+              <circle cx="10" cy="10" r="2" fill="currentColor"/>
+            </svg>
+            <span id="gps-status-text">Verificando GPS...</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="scanner-grid">
+        <div class="scanner-section">
+          <div class="card scanner-card">
+            <div class="scanner-header">
+              <h2>Cámara QR</h2>
+              <div class="location-status" id="location-status">
+                <div class="status-dot"></div>
+                <span>Verificando ubicación...</span>
+              </div>
+            </div>
+            
+            <div class="scanner-container" id="scanner-container">
+              <div class="scanner-placeholder" id="scanner-placeholder">
+                <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+                  <rect x="20" y="20" width="80" height="80" rx="8" stroke="#0078D4" stroke-width="4" fill="none"/>
+                  <path d="M20 40h20M80 40h20M20 80h20M80 80h20" stroke="#0078D4" stroke-width="4"/>
+                  <rect x="30" y="30" width="15" height="15" fill="#0078D4" opacity="0.5"/>
+                  <rect x="75" y="30" width="15" height="15" fill="#0078D4" opacity="0.5"/>
+                  <rect x="30" y="75" width="15" height="15" fill="#0078D4" opacity="0.5"/>
+                  <rect x="75" y="75" width="15" height="15" fill="#0078D4" opacity="0.5"/>
+                </svg>
+                <p>Esperando código QR...</p>
+                <button class="btn-primary" id="btn-start-scan">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M7 10l3 3 6-6" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  Iniciar Escaneo
+                </button>
+              </div>
+              <div id="qr-reader" style="display: none;"></div>
+              <div class="scan-line"></div>
+            </div>
+
+            <button class="btn-secondary btn-stop" id="btn-stop-scan" style="display: none;">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="6" y="6" width="8" height="8" fill="currentColor" rx="1"/>
+              </svg>
+              Detener Escaneo
+            </button>
+
+            <div class="scanner-info">
+              <div class="info-item">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="2" fill="none"/>
+                  <circle cx="10" cy="10" r="2" fill="currentColor"/>
+                  <path d="M10 3v2M10 15v2M3 10h2M15 10h2" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <div>
+                  <strong>Precisión GPS:</strong> <span id="gps-accuracy">Calculando...</span>
+                </div>
+              </div>
+              <div class="info-item">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M10 2L3 7v6c0 4.5 3 8 7 8s7-3.5 7-8V7l-7-5z" stroke="currentColor" stroke-width="2" fill="none"/>
+                </svg>
+                <div>
+                  <strong>Radio permitido:</strong> 30 metros
+                </div>
+              </div>
+              <div class="gps-tips" id="gps-tips">
+                <div class="tip-header">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <circle cx="8" cy="8" r="7" stroke="#0078D4" stroke-width="2" fill="none"/>
+                    <path d="M8 4v5M8 11v1" stroke="#0078D4" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                  <strong>Tips para mejor precisión GPS:</strong>
+                </div>
+                <ul class="tips-list">
+                  <li>✓ Asegúrate de estar en exteriores o cerca de una ventana</li>
+                  <li>✓ Permite los permisos de ubicación en tu navegador</li>
+                  <li>✓ Activa el GPS en la configuración de tu dispositivo</li>
+                  <li>✓ Espera 10-30 segundos para que el GPS obtenga señal de satélites</li>
+                  <li>✓ La primera lectura puede ser imprecisa, espera a que mejore</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="card result-card" id="result-card">
+            <div class="result-icon success" id="result-icon">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="30" stroke="currentColor" stroke-width="4" fill="none"/>
+                <path d="M20 32l8 8 16-16" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h2 id="result-title">Esperando escaneo</h2>
+            <p id="result-message">Escanea un código QR para registrar asistencia</p>
+          </div>
+
+          <div id="attendance-modal" class="attendance-modal">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+              <button class="modal-close" id="modal-close-btn">&times;</button>
+              <div class="modal-icon success">
+                <svg width="80" height="80" viewBox="0 0 64 64" fill="none">
+                  <circle cx="32" cy="32" r="30" stroke="currentColor" stroke-width="4" fill="none"/>
+                  <path d="M20 32l8 8 16-16" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <h2>¡Asistencia Registrada!</h2>
+              <div class="modal-student-info">
+                <div class="info-row">
+                  <span class="label">Estudiante:</span>
+                  <span class="value" id="modal-student-name">-</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">Código:</span>
+                  <span class="value" id="modal-student-id">-</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">Carrera:</span>
+                  <span class="value" id="modal-student-career">-</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">Evento:</span>
+                  <span class="value" id="modal-event-name">-</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">Ubicación:</span>
+                  <span class="value" id="modal-location-coords">-</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">Precisión:</span>
+                  <span class="value" id="modal-location-precision">-</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">Hora:</span>
+                  <span class="value" id="modal-attendance-time">-</span>
+                </div>
+              </div>
+              <p class="modal-footer">Se cerrará automáticamente en 2 segundos...</p>
+            </div>
+          </div>
+
+          <div class="card stats-card">
+            <h3>Estadísticas</h3>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <span class="stat-value" id="stat-today">0</span>
+                <span class="stat-label">Asistencias Hoy</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value" id="stat-event">0</span>
+                <span class="stat-label">Eventos Activos</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value" id="stat-total">0</span>
+                <span class="stat-label">Total General</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../shared/store.js"></script>
+  <script src="../shared/geo.js"></script>
+  <script src="../shared/auth-guard.js"></script>
+  <script src="escaner.js"></script>
+</body>
+</html>

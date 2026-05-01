@@ -1,0 +1,346 @@
+/* Mobile Responsive Breakpoints - Additional Media Queries for All Modules */
+/* Applied to all pages: index, login, eventos, registro, reportes, analisis, qr/escaner */
+
+/* 480px Breakpoint - Large Mobile/Small Tablet */
+@media (max-width: 480px) {
+  /* Navbar */
+  .navbar {
+    padding: 8px 0;
+    background: var(--surface);
+  }
+
+  .nav-content {
+    padding: 8px 10px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .logo {
+    font-size: 16px;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  .logo svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .nav-menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    width: 100%;
+  }
+
+  .nav-item {
+    padding: 8px 6px;
+    font-size: 10px;
+    gap: 4px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 6px;
+    min-height: 52px;
+  }
+
+  .nav-item svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Main Content */
+  .main-content {
+    padding: 80px 12px 24px;
+  }
+
+  .page-title {
+    font-size: 20px;
+  }
+
+  .page-subtitle {
+    font-size: 13px;
+  }
+
+  /* Forms */
+  .form-group label {
+    font-size: 12px;
+  }
+
+  .form-input, .form-textarea, .form-select {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  /* Buttons */
+  .btn-primary, .btn-secondary {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  /* Cards */
+  .event-card, .result-card, .card {
+    padding: 16px;
+  }
+
+  /* Tables */
+  .data-table {
+    font-size: 12px;
+  }
+
+  .data-table th, .data-table td {
+    padding: 8px;
+  }
+
+  /* Grid Layouts */
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .insights-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-content {
+    grid-template-columns: 1fr;
+  }
+
+  /* KPI Banner */
+  .kpi-banner {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .kpi-item {
+    padding: 14px 12px;
+  }
+
+  .kpi-value {
+    font-size: 24px;
+  }
+
+  /* Filters */
+  .filter-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .filter-select, .filter-input {
+    width: 100%;
+  }
+
+  /* Modal */
+  .modal-content {
+    max-width: 95%;
+  }
+
+  .modal-header {
+    padding: 16px;
+  }
+
+  .modal-form {
+    padding: 16px;
+  }
+
+  /* Search */
+  .event-search-card {
+    padding: 14px;
+  }
+
+  .search-input-group {
+    flex-direction: column;
+  }
+
+  .search-input-group input {
+    width: 100%;
+  }
+
+  .search-input-group button {
+    width: 100%;
+  }
+}
+
+/* 360px Breakpoint - Small Mobile */
+@media (max-width: 360px) {
+  /* Navbar */
+  .navbar {
+    padding: 6px 0;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .nav-content {
+    padding: 6px 8px;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .logo {
+    font-size: 14px;
+    gap: 5px;
+  }
+
+  .logo svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .nav-menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+  }
+
+  .nav-item {
+    padding: 6px 4px;
+    font-size: 9px;
+    gap: 3px;
+    min-height: 50px;
+  }
+
+  .nav-item svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Typography */
+  .page-title {
+    font-size: 18px;
+  }
+
+  .page-subtitle {
+    font-size: 12px;
+  }
+
+  h2, h3 {
+    font-size: 16px;
+  }
+
+  /* Main Content */
+  .main-content {
+    padding: 70px 10px 20px;
+  }
+
+  /* Forms */
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-input, .form-textarea, .form-select {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  .form-group label {
+    font-size: 11px;
+  }
+
+  /* Buttons */
+  .btn-primary, .btn-secondary {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  /* Cards */
+  .card, .event-card, .result-card {
+    padding: 12px;
+  }
+
+  /* Spacing */
+  .stats-grid,
+  .events-grid,
+  .insights-grid {
+    gap: 12px;
+  }
+
+  /* Tables */
+  .data-table {
+    font-size: 11px;
+  }
+
+  .data-table th, .data-table td {
+    padding: 6px;
+  }
+
+  /* Modal */
+  .modal-content {
+    max-width: 100%;
+    max-height: 90vh;
+  }
+
+  .modal-header {
+    padding: 12px;
+  }
+
+  .modal-form {
+    padding: 12px;
+  }
+
+  /* Event Info */
+  .event-info {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  /* KPI Items */
+  .kpi-item {
+    padding: 12px 10px;
+  }
+
+  .kpi-value {
+    font-size: 20px;
+  }
+
+  .kpi-label {
+    font-size: 10px;
+  }
+
+  /* Text */
+  body {
+    font-size: 13px;
+  }
+
+  /* Map */
+  .map-container {
+    height: 250px;
+  }
+
+  /* Search inputs */
+  .search-input-group input {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  /* Stats */
+  .stat-value {
+    font-size: 24px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+  }
+}
+
+/* Ensure all nav items responsive */
+@media (max-width: 600px) {
+  .nav-user-widget {
+    gap: 4px;
+    margin-left: auto;
+    padding-left: 8px;
+  }
+
+  .nav-user-info {
+    display: none;
+  }
+
+  .nav-logout-btn {
+    padding: 6px 8px;
+    font-size: 11px;
+    border-radius: 4px;
+  }
+}
