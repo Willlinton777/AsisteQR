@@ -63,7 +63,7 @@ Accede en `http://localhost:8080` con las credenciales:
 
 ```
 Usuario:    admin
-Contraseña: admin132
+Contraseña: admin123
 ```
 
 El sistema cargar automáticamente **20 eventos** (3 activos) y **10 estudiantes** desde la base de datos Supabase.
